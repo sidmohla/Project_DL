@@ -1,3 +1,23 @@
+Linear time testable:
+No isolated points (FO definable)                                 #Done
+No three cycles (FO definable)                                    #Done
+
+Bipartition (MSO definable, not FO definable)                     #Done
+Connectedness (MSO definable, not FO definable)                   #Done
+Acylcicity  (MSO definable, not FO definable)                     #Done
+Existence of Eulerian Path (MSO definable, not FO definable)      #Done
+Planarity (MSO definable, not FO definable)                       #Not in networkx, check stackoverflow answer
+
+poly time testable:
+Graph Matching                                                    #TODO
+
+NP complete
+Hamiltonian Cycle                                                 #TODO : networkx supports it Only for specific case
+Tree Width > 4                                                    #TODO : same as above
+IDP set size > 4                                                  #TODO : same as above
+
+
+
 import networkx as nx
 
 G = nx.Graph()
@@ -5,4 +25,5 @@ nx.draw(G);
 G = nx.complete_graph()
 np.random.choice(n, m) sample m from n
 nx.is_connected(G)
+
 
