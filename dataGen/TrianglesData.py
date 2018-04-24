@@ -43,4 +43,4 @@ print("X shape",len(X),X[0].shape)
 print("y shape",len(y))
 
 print("DONE")
-print("# Connected :",count)
+print("# Triangles :",count)
