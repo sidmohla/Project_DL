@@ -26,7 +26,7 @@ for i in range(10000):
     #plt.show();
 
 y = np.asarray(y)
-
+X = np.asarray(X)
 import pickle
 pickle_out = open('bipartite.pickle','wb')
 pickle.dump((X,y),pickle_out);
