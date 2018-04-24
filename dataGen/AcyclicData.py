@@ -7,7 +7,7 @@ e = np.array(G.edges)
 X,y = [],[]
 count = 0;
 for i in range(10000):
-    idx= np.random.choice(len(e),10);
+    idx= np.random.choice(len(e),8);
     edg = e[idx];
     G = nx.empty_graph(10);
     G.add_edges_from(edg)
@@ -18,28 +18,22 @@ for i in range(10000):
     X.append(mat.reshape(1,-1)[0]);
     #print(mat)
 
-    triangles = nx.triangles(G)
-    if(any(triangles.values())):
-        label = 1
-    else:
-        label = 0
-        #nx.draw(G);
-        #lt.show();
-
+    label = any(nx.cycle_basis(G))
     y.append(int(label))
     count += label
     print(i,label)
+    #nx.draw(G);
+    #plt.show();
 
 y = np.asarray(y)
-
+X = np.asarray(X)
 import pickle
-pickle_out = open('triangles.pickle','wb')
+pickle_out = open('acyclic.pickle','wb')
 pickle.dump((X,y),pickle_out);
 pickle_out.close();
 
-print(type(X),type(X[0]))
 print("X shape",len(X),X[0].shape)
 print("y shape",len(y))
 
 print("DONE")
-print("# Graphs with K3:",count)
+print("# Cycle:",count)

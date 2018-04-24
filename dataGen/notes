@@ -6,15 +6,15 @@ Bipartition (MSO definable, not FO definable)                     #Done
 Connectedness (MSO definable, not FO definable)                   #Done
 Acylcicity  (MSO definable, not FO definable)                     #Done
 Existence of Eulerian Path (MSO definable, not FO definable)      #Done
-Planarity (MSO definable, not FO definable)                       #Not in networkx, check stackoverflow answer
+Planarity (MSO definable, not FO definable)                       #Done using planarity:- pip3 install planarrity && pip3 install cython
 
 poly time testable:
-Graph Matching                                                    #TODO
+Graph Matching                                                    #TODO: Use networkx.algorithms.isomorphic
 
 NP complete
-Hamiltonian Cycle                                                 #TODO : networkx supports it Only for specific case
-Tree Width > 4                                                    #TODO : same as above
-IDP set size > 4                                                  #TODO : same as above
+Hamiltonian Cycle                                                 #Done
+Tree Width > 4                                                    #TODO
+IDP set size > 4                                                  #TODO
 
 
 

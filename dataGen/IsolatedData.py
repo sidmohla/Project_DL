@@ -7,7 +7,7 @@ e = np.array(G.edges)
 X,y = [],[]
 count = 0;
 for i in range(10000):
-    idx= np.random.choice(len(e),10);
+    idx= np.random.choice(len(e),12);
     edg = e[idx];
     G = nx.empty_graph(10);
     G.add_edges_from(edg)
@@ -18,7 +18,7 @@ for i in range(10000):
     X.append(mat.reshape(1,-1)[0]);
     #print(mat)
 
-    label = nx.is_bipartite(G)
+    label = any(nx.isolates(G))
     y.append(int(label))
     count += label
     print(i,label)
@@ -26,9 +26,9 @@ for i in range(10000):
     #plt.show();
 
 y = np.asarray(y)
-
+X = np.asarray(X)
 import pickle
-pickle_out = open('bipartite.pickle','wb')
+pickle_out = open('isolated.pickle','wb')
 pickle.dump((X,y),pickle_out);
 pickle_out.close();
 
@@ -36,4 +36,4 @@ print("X shape",len(X),X[0].shape)
 print("y shape",len(y))
 
 print("DONE")
-print("# Connected :",count)
+print("# Isolated:",count)
