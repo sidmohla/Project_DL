@@ -12,9 +12,9 @@ for i in range(10000):
     G = nx.empty_graph(10);
     G.add_edges_from(edg)
     mat = np.zeros((10,10),dtype=int);
-    for j in edg:
-        mat[tuple(j)]=True;
-        mat[tuple(j[::-1])]=True;
+    for i in edg:
+        mat[tuple(i)]=True;
+        mat[tuple(i[::-1])]=True;
     X.append(mat.reshape(1,-1)[0]);
     #print(mat)
 
@@ -29,17 +29,18 @@ for i in range(10000):
     y.append(int(label))
     count += label
     print(i,label)
-
+    
 y = np.asarray(y)
-
+X = np.asarray(X)
 import pickle
 pickle_out = open('triangles.pickle','wb')
 pickle.dump((X,y),pickle_out);
 pickle_out.close();
-
-print(type(X),type(X[0]))
+pickle_in  = open('triangles.pickle','rb')
+X,y = pickle.load(pickle_in);
+print(type(X),type(X[0][0]))
 print("X shape",len(X),X[0].shape)
 print("y shape",len(y))
 
 print("DONE")
-print("# Graphs with K3:",count)
+print("# Connected :",count)
