@@ -45,7 +45,7 @@ print(G.edges,len(e))
 X,y = [],[]
 count = 0;
 for i in range(10000):
-    idx= np.random.permutation(len(e))[:21]
+    idx= np.random.permutation(len(e))[:np.around(np.random.normal(21,2))]
     #print(idx)
     edg = e[idx];
     G = nx.empty_graph(10)
