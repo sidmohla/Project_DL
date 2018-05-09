@@ -6,6 +6,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import pickle
+from sklearn.preprocessing import LabelBinarizer as lb
+lb = lb()
 
 def get_batch(x, y, batch_size=0, batch_idx=0, size=0):
     if (batch_size==0):
@@ -29,10 +31,13 @@ def fun(i):
     D_in = 100
     H1 = 5
     H2 = 0
-    D_out = 1
-
+    D_out = 10
+    print(picFile)
     stream = open(picFile,'rb');
     X,y=pickle.load(stream)
+    y = lb.fit_transform(y)
+    print(y)
+    D_out = y[0].shape[0]
 #X = np.asarray(X)
 #print(X.shape)
 #print(X[-1000:].shape)
@@ -57,14 +62,14 @@ def fun(i):
             self.fc2 = nn.Linear(N1, D_out) # 2nd Full-Connected Layer: 500 (hidden node) -> 10 (output class)
             #self.relu = nn.LeakyReLU(0.01)                          # Non-Linear ReLU Layer: max(0,x)
             #self.fc3 = nn.Linear(N2, D_out) # 2nd Full-Connected Layer: 500 (hidden node) -> 10 (output class)
-            self.sigmoid = nn.Sigmoid()
+            self.softmax = nn.Softmax(dim = 1)
         def forward(self, x):                              # Forward pass: stacking each layer together
             out = self.fc1(x)
             out = self.relu(out)
             out = self.fc2(out)
             #out = self.relu(out)
             #out = self.fc3(out)
-            out = self.sigmoid(out)
+            out = self.softmax(out)
             return out
 
     model = Net(D_in, H1, D_out)
@@ -109,11 +114,12 @@ def fun(i):
         X = X[perm]
         y = y[perm]
 #Test Error
-
+        print(X_test.shape)
         y_test_pred = model(X_test)
         netOutTest.append(np.sum(np.around(y_test_pred.data.numpy(),decimals=0)) )
         trueOutTest.append(np.sum(np.around(y_test.data.numpy(),decimals=0)) )
         miss_test.append((np.count_nonzero(np.around(y_test_pred.data.numpy(),decimals=0) != y_test.data.numpy()))/y_test.shape[0])
+        print(y_test_pred.shape,y_test.shape)
         err_test.append(loss_fn(y_test_pred,y_test).data[0])
         netOut.append(0)
         trueOut.append(0)
@@ -124,7 +130,6 @@ def fun(i):
             y_pred = model(batch_X)
 # Compute and print loss.
             loss = loss_fn(y_pred, batch_y)
-
             netOut[t] += np.sum(np.around(y_pred.data.numpy(),decimals=0) )
             trueOut[t] += np.sum(np.around(batch_y.data.numpy(),decimals=0) )
 
@@ -132,7 +137,7 @@ def fun(i):
             err[t] += loss.data[0]
             miss[t] += (np.count_nonzero(np.around(y_pred.data.numpy(),decimals=0) != batch_y.data.numpy()))/batch_y.shape[0]
 
-            print(picFile,"# : ", t)
+            print("# : ", t)
             print("Loss : ",loss.data[0],err_test[-1])
             print("Miss : ",miss[t], miss_test[-1])
 
@@ -179,7 +184,6 @@ def fun(i):
 arr = ['../dataGen/acyclic.pickle'
 ,'../dataGen/bipartite.pickle'
 ,'../dataGen/clique.pickle'
-,'../dataGen/cluster.pickle'
 ,'../dataGen/components.pickle'
 ,'../dataGen/conEdges.pickle'
 ,'../dataGen/conVert.pickle'
@@ -191,7 +195,6 @@ arr = ['../dataGen/acyclic.pickle'
 ,'../dataGen/idp.pickle'
 ,'../dataGen/isolated.pickle'
 ,'../dataGen/planar.pickle'
-,'../dataGen/triangles.pickle'
-,'../dataGen/weiner.pickle']
+,'../dataGen/triangles.pickle']
 for i in arr:
-	fun(i);
+    fun(i);

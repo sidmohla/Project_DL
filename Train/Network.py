@@ -57,7 +57,7 @@ class Net(nn.Module):
         self.fc2 = nn.Linear(N1, D_out) # 2nd Full-Connected Layer: 500 (hidden node) -> 10 (output class)
         #self.relu = nn.LeakyReLU(0.01)                          # Non-Linear ReLU Layer: max(0,x)
         #self.fc3 = nn.Linear(N2, D_out) # 2nd Full-Connected Layer: 500 (hidden node) -> 10 (output class)
-        self.sigmoid = nn.Sigmoid()
+        self.sigmoid = nn.Softmax()
     def forward(self, x):                              # Forward pass: stacking each layer together
         out = self.fc1(x)
         out = self.relu(out)
