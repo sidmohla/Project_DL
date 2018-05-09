@@ -7,7 +7,7 @@ import numpy as np
 import pandas as pd
 import pickle
 from sklearn.preprocessing import LabelBinarizer as lb
-lb = lb()
+#lb = lb()
 
 def get_batch(x, y, batch_size=0, batch_idx=0, size=0):
     if (batch_size==0):
@@ -20,7 +20,9 @@ def get_batch(x, y, batch_size=0, batch_idx=0, size=0):
         if(batch_size!=1):
             batch_size = size - (batch_idx)*batch_size
     start = batch_idx*batch_size
-    return Variable(oX[start:start+batch_size,:]),Variable(oY[start:start+batch_size]).view(-1,1);
+    #if(y.shape[0] == 1):
+            #return Variable(oX[start:start+batch_size,:]),Variable(oY[start:start+batch_size]).view(-1,1);
+    return Variable(oX[start:start+batch_size,:]),Variable(oY[start:start+batch_size].view(-1,1));
 
 # N is batch size; D_in is input dimension;
 # H is hidden dimension; D_out is output dimension.
@@ -31,13 +33,13 @@ def fun(i):
     D_in = 100
     H1 = 5
     H2 = 0
-    D_out = 10
+    D_out = 1
     print(picFile)
     stream = open(picFile,'rb');
     X,y=pickle.load(stream)
-    y = lb.fit_transform(y)
-    print(y)
-    D_out = y[0].shape[0]
+    #y = lb.fit_transform(y)
+    #print(y)
+    #D_out = y[0].shape[0]
 #X = np.asarray(X)
 #print(X.shape)
 #print(X[-1000:].shape)
@@ -62,19 +64,17 @@ def fun(i):
             self.fc2 = nn.Linear(N1, D_out) # 2nd Full-Connected Layer: 500 (hidden node) -> 10 (output class)
             #self.relu = nn.LeakyReLU(0.01)                          # Non-Linear ReLU Layer: max(0,x)
             #self.fc3 = nn.Linear(N2, D_out) # 2nd Full-Connected Layer: 500 (hidden node) -> 10 (output class)
-            self.softmax = nn.Softmax(dim = 1)
         def forward(self, x):                              # Forward pass: stacking each layer together
             out = self.fc1(x)
             out = self.relu(out)
             out = self.fc2(out)
             #out = self.relu(out)
             #out = self.fc3(out)
-            out = self.softmax(out)
             return out
 
     model = Net(D_in, H1, D_out)
 
-    loss_fn = torch.nn.BCELoss(size_average=True)
+    loss_fn = torch.nn.MSELoss(size_average=True)
 
 # Use the optim package to define an Optimizer that will update the weights of
 # the model for us. Here we will use Adam; the optim package contains many other
@@ -114,12 +114,12 @@ def fun(i):
         X = X[perm]
         y = y[perm]
 #Test Error
-        print(X_test.shape)
+        #print(X_test.shape)
         y_test_pred = model(X_test)
         netOutTest.append(np.sum(np.around(y_test_pred.data.numpy(),decimals=0)) )
         trueOutTest.append(np.sum(np.around(y_test.data.numpy(),decimals=0)) )
         miss_test.append((np.count_nonzero(np.around(y_test_pred.data.numpy(),decimals=0) != y_test.data.numpy()))/y_test.shape[0])
-        print(y_test_pred.shape,y_test.shape)
+        #print(y_test_pred,y_test)
         err_test.append(loss_fn(y_test_pred,y_test).data[0])
         netOut.append(0)
         trueOut.append(0)
@@ -181,20 +181,12 @@ def fun(i):
 
     plt.show();
 
-arr = ['../dataGen/acyclic.pickle'
-,'../dataGen/bipartite.pickle'
-,'../dataGen/clique.pickle'
+arr = ['../dataGen/clique.pickle'
 ,'../dataGen/components.pickle'
 ,'../dataGen/conEdges.pickle'
 ,'../dataGen/conVert.pickle'
-,'../dataGen/connected.pickle'
 ,'../dataGen/diameter.pickle'
 ,'../dataGen/domination.pickle'
-,'../dataGen/eulerian.pickle'
-,'../dataGen/hamil.pickle'
-,'../dataGen/idp.pickle'
-,'../dataGen/isolated.pickle'
-,'../dataGen/planar.pickle'
-,'../dataGen/triangles.pickle']
+,'../dataGen/idp.pickle']
 for i in arr:
     fun(i);
