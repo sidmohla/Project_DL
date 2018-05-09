@@ -28,7 +28,7 @@ for i in range(10000):
 y = np.asarray(y)
 X = np.asarray(X)
 import pickle
-pickle_out = open('hamil.pickle','wb')
+pickle_out = open('components.pickle','wb')
 pickle.dump((X,y),pickle_out);
 pickle_out.close();
 pickle_in  = open('components.pickle','rb')

@@ -23,7 +23,7 @@ for i in range(10000):
         mat[tuple(i[::-1])]=True;
     X.append(mat.reshape(1,-1)[0])
 
-    label = nx.ramsey_r2(G)
+    label = nx.algorithms.approximation.ramsey_R2(G)
     y.append(int(label))
     count += label
     print(i,label)
@@ -31,10 +31,10 @@ for i in range(10000):
 y = np.asarray(y)
 X = np.asarray(X)
 import pickle
-pickle_out = open('hamil.pickle','wb')
+pickle_out = open('ramsey.pickle','wb')
 pickle.dump((X,y),pickle_out);
 pickle_out.close();
-pickle_in  = open('components.pickle','rb')
+pickle_in  = open('ramsey.pickle','rb')
 X,y = pickle.load(pickle_in);
 print(type(X),type(X[0][0]))
 print("X shape",len(X),X[0].shape)

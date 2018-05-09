@@ -1,4 +1,5 @@
 import torch
+import sys
 import torch.nn as nn
 from torch.autograd import Variable
 import matplotlib.pyplot as plt
@@ -22,13 +23,15 @@ def get_batch(x, y, batch_size=0, batch_idx=0, size=0):
 # N is batch size; D_in is input dimension;
 # H is hidden dimension; D_out is output dimension.
 
+picFile = str(sys.argv[1])
+
 N = 10000
 D_in = 100
 H1 = 5
 H2 = 0
 D_out = 1
 
-stream = open('acyclic.pickle','rb');
+stream = open(picFile);
 X,y=pickle.load(stream)
 #X = np.asarray(X)
 #print(X.shape)
@@ -170,6 +173,6 @@ plt.plot(i, miss_test,'b-',label='Test Miss');
 plt.plot(i, miss,'y-',label='Train Miss');
 plt.legend();
 
-plt.savefig(fname = ('A'+','+str(H1)+','+str(H2)+'Train'+str(miss[-1])+'Test'+str(miss_test[-1])+'.svg'),format = 'svg');
+plt.savefig(fname = (picfile + ','+str(H1)+','+str(H2)+'Train'+str(miss[-1])+'Test'+str(miss_test[-1])+'.svg'),format = 'svg');
 
 plt.show();

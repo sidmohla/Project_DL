@@ -30,10 +30,10 @@ for i in range(10000):
 y = np.asarray(y)
 X = np.asarray(X)
 import pickle
-pickle_out = open('hamil.pickle','wb')
+pickle_out = open('domination.pickle','wb')
 pickle.dump((X,y),pickle_out);
 pickle_out.close();
-pickle_in  = open('components.pickle','rb')
+pickle_in  = open('domination.pickle','rb')
 X,y = pickle.load(pickle_in);
 print(type(X),type(X[0][0]))
 print("X shape",len(X),X[0].shape)
